@@ -1,0 +1,153 @@
+2013 08 21 - Version 1.5.1
+
+V.1.2.0
++ NEW FEATURE: Membership feature is now available. 
+	Set the payment just the way you need: One time payment, Recurring Subscription, Billing Cycle Limit, Custom trial period, Membership expiration
+	Add unlimited membership levels
+	Limit pages or posts to specific Memebership levels
+	Limit specific Buddypress components for specific Memebership levels
+	Reports: Sales and Revenue Reports; Visits, Views and Logins Report 
+	Payment Gateways: Paypal Standard, Paypal Express, Paypal Website Payments Pro, Paypal Advanced, Pay by Check, Stripe, Authorize.net, Braintree Payments
+	
+* When retrieving forgot password, in the received email, the email was displayed instead of the username
+* Social buttons are now clickable on mobile phones.
+* Mobile menu - Translated Back string added via Javascript
+* Fixed a bug with OauthException class when a plugin using the exact class was installed
+* Added a filter for footer copyrighy text so it can be easily changed
+
+V.1.5.1
++ NEW FEATURE: When viewing you own profile we added a "Change photo" overlay to the avatar
++ NEW Bp Checkins plugin compatibility
++ NEW Shortcode added: [kleo_articles] - Displays articles just like on the blog page anywhere you like
++ When registering via Facebook now it adds an entry to the user activity
++ Added "Page" type for Profile tabs. Now you can show content from any page by it's name next to member profile image.
++ You can now filter the number of groups per page that are displayed on buddypress groups loop
+- bp-Album profile tab fix after 1.5 update
+- rtMedia - activity small position fix on some links
+- Top bar navigation - fix for mobile to show parent links also in the mobile menu
+- Small styling fix on registration page
+- Fix recent posts widget caching posts problem
+- Fixed a small padding issue for registration modal when using Chrome on Windows OS
+- Fixed some rtMedia alignement buttons when posting updates
+- Fix Embeded videos to be full width
+
+V.1.5
++ Two new shortcodes to restrict content for members or for guests
++ Added the option on the Front page to choose from Search form, Register Form or display Register form for guests and Search form for registered users
++ Added rtMedia tab on Profile page. This shows photos that members uploaded via rtMedia plugin
++ Changed the way the Tabs on the Profile page render. This new way allows you to add your own custom content
++ Added tabs on post/page theme settings 
++ Added support for Buddypress Docs
+* Wordpress 3.5 Media uploader now used for selecting files on page edit(gallery, audio post formats)
+* Fix Video Button shortocode when using non ascii characters
+* Fixed Ajax search excerpt display when an article had no content.
+* Removed strict standard notices
+* Fix for Safari 6 - Nested comments appear to be overlapping on blog single article page.
+* Fix javascript error on password recovery via login modal
+
+V1.4.1
++ Option to switch from rounded to squared avatar images
+* Delete account option fix
+* Search form - fixed a problem when if an option for the age field wasn't selected 
+* Members directory - Now when you click all members, it removes the search strings and shows all members; the same happens with the Friends tab.
+* Theme options - sortable fields width fix in Chrome
+* Nice ajax search popup effect added
+* Sticky menu bug fix on bbPress topic page
+* Login modal text color wasn't changing to match the site color
+* Fixed an issue with Buddypress private group's memberships that wasn't loading the request form
+
+V1.4
++ Ajax search form in main menu - Opens a nice popup to search site content
++ Sortable search form fields - Drag/drop your fields to appear on the form just the way you want
++ Search form displays default values - these are set from User profile fields
++ Option to Enable/Disable Facebook user registration and allow only Facebook login
++ Fixed privacy fields displayed on members directory. This fixes a Buddypress default issue
++ NEW Car-Sharing Theme demo
++ Top-Bar menu transparency fallback for IE8
+* Top-Bar menu small pading issue for IE8
+* Mobile top bar - Fixed an issue when clicking on the menu it was taking you at top of the page
+* Layout page - width fix for nonresponsive version
+* Fix for some image height in activity list
+* Fix for croping avatar in mobile version
++ Member statistics shortcode - generate statistics based on user profile fields
++ Modified Country profile field into a selectbox with predefined list of countries
++ Filter to change heart icon on images hover
++ Option to Enable/disable BP-Album all over the site
+* Styled some Woocommerce elements to match site design
+* Packed some javascripts for better performance
+* Fixed wide video to display correctly on status updates
+* dynamic circle color for matching made same as main site color
+* Recently active Groups shortcode adjustments for image
+* Style adjustments to radio and checkbox search form field types
++ Possible to change members carousel text in search form with an action
++ Possible to change members type in search form carousel with an action - newest, active, popular
++ Fixed members carousel style in Members Search Form Widget
++ Posts carousel shortcode - you can show specific post types and post formats
++ Facebook Register account -> redirects you to edit your profile if an account is created using Facebook
+
+
+V1.3
++ Fully customizable search fields for the two form types
++ Sticky header menu. We have added the option to enable/disable the nice sticky header menu.
++ Woocommerce shop integration - An easy way to sell your products.
+* Tabs fixed alignment for active tab
+* Bugs and fixes
+
+Files modified: 
+* header.php
+* framework/constants.php
+* framework/frontend.php
+* framework/helpers.php
+* framework/load.php
+* framework/options/default.php
+* framework/theme_options.php
+* framework/shortcodes/tinymce/config.php
+* framework/shortcodes/tinymce/plugin.js
+* framework/widgets
+* functions.php
+* members/members-loop.php
+* members/index.php
+* members/members-loop.php
+* members/single/profile/edit.php
+* members/single/profile/profile-wp.php
+* members/single/member-header.php
+* assets/scripts/foundation.min.js
+* assets/styles/responsive.css
+* assets/styles/app.css
+* custom_buddypress/_inc/css/default.css
+* custom_buddypress/bp-functions.php
+* functions.php
+* page-parts/home-search-form.php
+* style.css
++ custom_buddypress/kleo-bp-search.php
++ function-woocommerce.php
++ woocommerce/
++ sidebar-woocommerce.php
++ product-searchform.php
+
+
+V1.2
++ Support Simple Ads Manager plugin. Easy add advertisment to your website.
+* Fix for thumb on whats new buddypress profile page
+* Custom styling on small devices(below 480px) for forum replies 
+* Fixed Google Analytics validation problem
+* Check if buddypress groups component is active for groups shortcode
+* Added a "br" tag in footer only for mobile
+* Check if is admin to include shortcodes button
+* Extra styles for Buddypress blogs section
+
+Files modified:
+- custom_buddypress/_inc/css/default.css
+- assets/scripts/foundation.min.js
+- assets/styles/responsive.css
+- framework/theme_options.php
+- custom_buddypress/bp-functions.php
+- footer.php
+- blogs/blogs-loop.php
+- blogs/create.php
+- blogs/index.php
+
+V1.1
+* Home page icons resize on mobile
+* Check if Private messages buddypress component is enabled to display notifications in header
+* Updated to latest version en_US.mo and en_US.po files

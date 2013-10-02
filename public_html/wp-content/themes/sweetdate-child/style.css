@@ -1,0 +1,61 @@
+/*
+Theme Name:     Sweetdate Child
+Theme URI:
+Description:    Child theme for Sweetdate
+Author:         SeventhQueen
+Author URI:     http://seventhqueen.com
+Template:       sweetdate
+Version:        2.0
+Tags: dating, clean, responsive, creative, minimal, modern, landing page, social, buddypress,bbpress, woocommerce
+License: GNU General Public License
+License URI: license.txt
+*/
+@import url("../sweetdate/style.css");
+
+/*
+* Please add your custom styles below
+*/
+
+.button.alert { background-color: #0c870a; border: 1px solid #0c870a; }
+.button.alert:hover,
+.button.alert:focus { background-color: #0c870a; border: 1px solid #0c870a; }
+
+#call-to-actions .alert { background-color: #0c870a; border: 1px solid #0c870a; }
+#call-to-actions .alert:hover,
+#call-to-actions .alert:focus { background: #0c870a; border: 1px solid #0c870a; }
+
+
+/*** Status Icons ***/
+.status {	text-align: center; position:relative; bottom: 0px;  -webkit-transition: all 0.3s ease-in-out; -moz-transition: all 0.3s ease-in-out;
+		-ms-transition: all 0.3s ease-in-out; -o-transition: all 0.3s ease-in-out; transition: all 0.3s ease-in-out; }
+.status:hover { bottom:5px;  }
+.status:hover .icon[data-animation=pulse] img {
+		-webkit-animation: pulse ease-in-out 1 normal 500ms; -moz-animation: pulse ease-in-out 1 normal 500ms; -ms-animation: pulse ease-in-out 1 normal 500ms;
+		-o-animation: pulse ease-in-out 1 normal 500ms; animation: pulse ease-in-out 1 normal 500ms; }
+.status .block-grid li { float: none; font-size: 18px; color: #8b8b8b; min-height: 60px; }
+.status .block-grid li.title { font-size: 1px; min-height: 1px; }
+
+iframe { border: none; }
+.kleo-video { display: none; margin-bottom: 40px; background: #000; box-shadow: 0 0  10px #777; }
+.kleo-video .central { position: relative; background: url(../images/loading_dark.gif) center center no-repeat; }
+.kleo-video .central a.videoClose { position: absolute; right: 40px; bottom: 43px; width: 34px; height: 34px; z-index: 9999; }
+
+
+*** Homepage Members ***/
+.section-members { text-align: center; min-height: 290px;}
+.section-members .item-list { border-bottom: 0; }
+.section-members .item-list li:last-child { float: left; }
+.section-members .item-options a {  padding: 5px; margin: 0 10px; position: relative; }
+.section-members .item-options .selected { border-bottom: 3px solid #2ba6cb; }
+.section-members .item-options .selected:after {content:"\00a0"; position: absolute; bottom: -7px; left: 50%; margin: 0; margin-left: -5px; border-top: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 5px solid #2ba6cb; padding: 0; width: 0; height: 0;}
+.section-members .item-avatar { padding: 8px; }
+.section-members .item-avatar a { }
+.section-members .item-avatar .avatar { border-radius: 50%; }
+.section-members .item-avatar .avatar:hover {
+		-webkit-animation: pulse ease-in-out 1 normal 500ms; -moz-animation: pulse ease-in-out 1 normal 500ms; -ms-animation: pulse ease-in-out 1 normal 500ms;
+		-o-animation: pulse ease-in-out 1 normal 500ms; animation: pulse ease-in-out 1 normal 500ms;}
+.section-members .item {}
+
+
+
+
