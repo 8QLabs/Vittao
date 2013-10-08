@@ -7,66 +7,62 @@
  * @subpackage bp-default
  */
 
-get_header( 'buddypress' ); ?>
+get_header('buddypress'); ?>
 
-     <?php get_template_part('page-parts/buddypress-before-wrap');?>
+<?php get_template_part('page-parts/buddypress-before-wrap'); ?>
 
-    <?php get_template_part('page-parts/buddypress-profile-header');?>
+<?php
 
-			
-			<div id="item-nav">
-				<div class="item-list-tabs no-ajax" id="object-nav" role="navigation">
-					<ul>
 
-						<?php bp_get_displayed_user_nav(); ?>
+    //Show profile only for coaches and friends
+    if ( is_current_user_coach() || is_profile_coach() || is_profile_owner() || is_current_user_admin() || ( is_user_logged_in() and is_current_user_friend() ) ) :?>
 
-						<?php do_action( 'bp_member_options_nav' ); ?>
+    <?php get_template_part('page-parts/buddypress-profile-header'); ?>
 
-					</ul>
-				</div>
-                            <div class="clearfix"></div>
-			</div><!-- #item-nav -->
+    <div id="item-nav">
+        <div class="item-list-tabs no-ajax" id="object-nav" role="navigation">
+            <ul>
 
-			<div id="item-body">
+                <?php bp_get_displayed_user_nav(); ?>
 
-				<?php do_action( 'bp_before_member_body' );
+                <?php do_action('bp_member_options_nav'); ?>
 
-				if ( bp_is_user_activity() || !bp_current_component() ) :
-					locate_template( array( 'members/single/activity.php'  ), true );
+            </ul>
+        </div>
+        <div class="clearfix"></div>
+    </div><!-- #item-nav -->
 
-				 elseif ( bp_is_user_blogs() ) :
-					locate_template( array( 'members/single/blogs.php'     ), true );
+    <div id="item-body">
 
-				elseif ( bp_is_user_friends() ) :
-					locate_template( array( 'members/single/friends.php'   ), true );
+        <?php do_action('bp_before_member_body');
 
-				elseif ( bp_is_user_groups() ) :
-					locate_template( array( 'members/single/groups.php'    ), true );
+        if (bp_is_user_activity() || !bp_current_component()) :
+            locate_template(array('members/single/activity.php'), true); elseif (bp_is_user_blogs()) :
+            locate_template(array('members/single/blogs.php'), true); elseif (bp_is_user_friends()) :
+            locate_template(array('members/single/friends.php'), true); elseif (bp_is_user_groups()) :
+            locate_template(array('members/single/groups.php'), true); elseif (bp_is_user_messages()) :
+            locate_template(array('members/single/messages.php'), true); elseif (bp_is_user_profile()) :
+            locate_template(array('members/single/profile.php'), true); elseif (bp_is_user_forums()) :
+            locate_template(array('members/single/forums.php'), true); elseif (bp_is_user_settings()) :
+            locate_template(array('members/single/settings.php'), true); // If nothing sticks, load a generic template
+        else :
+            locate_template(array('members/single/plugins.php'), true);
 
-				elseif ( bp_is_user_messages() ) :
-					locate_template( array( 'members/single/messages.php'  ), true );
+        endif;
 
-				elseif ( bp_is_user_profile() ) :
-					locate_template( array( 'members/single/profile.php'   ), true );
+        do_action('bp_after_member_body'); ?>
 
-				elseif ( bp_is_user_forums() ) :
-					locate_template( array( 'members/single/forums.php'    ), true );
+    </div><!-- #item-body -->
+    <?php do_action('bp_after_member_home_content'); ?>
 
-				elseif ( bp_is_user_settings() ) :
-					locate_template( array( 'members/single/settings.php'  ), true );
 
-				// If nothing sticks, load a generic template
-				else :
-					locate_template( array( 'members/single/plugins.php'   ), true );
+<?php
+    else:
+        echo "<h2>Sorry, only friends and coaches can view the profile.</h2>";
+    endif;
+?>
 
-				endif;
+<?php get_template_part('page-parts/buddypress-after-wrap'); ?>
+<?php get_footer('buddypress'); ?>
 
-				do_action( 'bp_after_member_body' ); ?>
 
-			</div><!-- #item-body -->
-
-			<?php do_action( 'bp_after_member_home_content' ); ?>
-
-    <?php get_template_part('page-parts/buddypress-after-wrap');?>
-            
-<?php get_footer( 'buddypress' ); ?>

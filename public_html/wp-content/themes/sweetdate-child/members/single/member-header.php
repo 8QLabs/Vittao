@@ -11,16 +11,14 @@
 
 <?php do_action( 'bp_before_member_header' ); ?>
 
-
 <?php
+
 /***
  * If you'd like to show specific profile fields here use:
  * bp_member_profile_data( 'field=About Me' ); -- Pass the name of the field
  */
 
-// bp_member_profile_data( 'field=My profile' );
-
-
+    // bp_member_profile_data( 'field=My profile' );
 
  do_action( 'bp_profile_header_meta' );
  ?>
@@ -52,14 +50,18 @@
 
     <div class="row">
         <div id="item-header-avatar" class="eight columns image-hover">
+
             <img src="<?php bp_displayed_user_avatar( array('type' =>'full','width' => 100, 'height' => 100, 'html' => 0) ); ?>" class="avatar photo" alt="">
+
             <?php
             /**
              * kleo_bp_after_profile_image
              *
              * @hooked kleo_bp_profile_photo_change - 10
              */
-             do_action( 'kleo_bp_after_profile_image' );
+
+                do_action( 'kleo_bp_after_profile_image' );
+
              ?>
         </div>
 

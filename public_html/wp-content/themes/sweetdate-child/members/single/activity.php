@@ -72,7 +72,11 @@ do_action( 'bp_before_member_activity_content' ); ?>
 
 <div class="activity" role="main">
 
-	<?php locate_template( array( 'activity/activity-loop.php' ), true ); ?>
+	<?php
+        if ( is_profile_owner() || is_current_user_admin() || ( is_current_user_coach() and is_current_user_friend() ) ) {
+            locate_template( array( 'activity/activity-loop.php' ), true );
+        }
+    ?>
 
 </div><!-- .activity -->
 
