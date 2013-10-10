@@ -38,6 +38,18 @@ function is_allowed_view_users_profile() {
     return $allow_permission;
 }
 
+function detect_current_user_tag() {
+    return xprofile_get_field_data( 11, bp_loggedin_user_id() );
+}
+
+function detect_user_tag($bp_get_member_user_id) {
+    return xprofile_get_field_data( 11, $bp_get_member_user_id );
+}
+
+function detect_user_type($bp_get_member_user_id) {
+    return xprofile_get_field_data( 325, $bp_get_member_user_id );
+}
+
 function detect_buat_user_type() {
     if ( is_user_logged_in() ) {
 
@@ -94,6 +106,12 @@ function is_current_user_friend() {
        return false;
     }
 }
+
+function detect_user_status( $bp_get_member_user_id ) {
+    //"is_friend", "not_friends", "pending"
+    return friends_check_friendship_status( bp_loggedin_user_id(), $bp_get_member_user_id );
+}
+
 
 function is_profile_owner() {
     if ( bp_loggedin_user_id() == bp_displayed_user_id() ) {
@@ -231,11 +249,11 @@ function kleo_my_actions() {
 
 
    /* disable matching on member profile */
-    remove_action('kleo_bp_before_profile_name', 'kleo_bp_compatibility_match');      
- 
+    remove_action('kleo_bp_before_profile_name', 'kleo_bp_compatibility_match');
+
     /* Replace the heart over images */
     add_filter('kleo_img_rounded_icon', 'my_custom_icon');
- 
+
     /* Replace the heart from register modal */
     add_filter('kleo_register_button_icon', 'my_custom_icon_register');
 

@@ -7,6 +7,7 @@ function bp_core_register_widgets() {
 	add_action('widgets_init', create_function('', 'return register_widget("BP_Core_Members_Widget");') );
 	add_action('widgets_init', create_function('', 'return register_widget("BP_Core_Whos_Online_Widget");') );
 	add_action('widgets_init', create_function('', 'return register_widget("BP_Core_Recently_Active_Widget");') );
+    add_action('widgets_init', create_function('', 'return register_widget("BP_Core_Vittao_Offers");') );
 }
 add_action( 'bp_register_widgets', 'bp_core_register_widgets' );
 
@@ -280,6 +281,161 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 	<?php
 	}
 }
+
+
+/*** VITTAO WIDGET *****************/
+
+class BP_Core_Vittao_Offers extends WP_Widget {
+
+    function __construct() {
+        $widget_ops = array(
+            'description' => __( 'Vittao members offers', 'buddypress' ),
+            'classname' => 'widget_bp_core_members_widget buddypress widget',
+        );
+        parent::__construct( false, $name = _x( "(BuddyPress) Vittao Offers", 'widget name', 'buddypress' ), $widget_ops );
+    }
+
+    function widget($args, $instance) {
+
+        extract( $args );
+        $maxmembers = 0;
+
+        $title = apply_filters( 'widget_title', $instance['title'] );
+
+
+
+        if ( is_current_user_student() && ( friends_check_user_has_friends( bp_current_user_id() )  ) ) {
+            return;
+        }
+
+        if ( bp_has_members( bp_ajax_querystring( 'members' ) ) ) :
+            while ( bp_members() ) : bp_the_member();
+                if ( friends_check_friendship_status( bp_get_member_user_id(), bp_loggedin_user_id() ) == "pending" ) {
+                    return;
+                }
+            endwhile;
+        endif;
+
+
+
+        echo $before_widget;
+        echo $before_title
+            . $title
+            . $after_title; ?>
+
+        <?php if ( bp_has_members( 'user_id=0&type=active' . '&populate_extras=1' ) ) : ?>
+
+            <ul id="members-list" class="item-list">
+                <?php while ( bp_members() || ( $maxmembers >= $instance['max_members'] ) ) : bp_the_member(); ?>
+
+                    <?php if ( is_current_user_coach() && ( detect_user_type( bp_get_member_user_id() ) == "User" ) ) : ?>
+
+                        <?php // echo "<p> current user is Coach with tag=" . detect_current_user_tag() . " and other is " . detect_user_type( bp_get_member_user_id() ) . " with tag =" . detect_user_tag( bp_get_member_user_id() ) . "</p>"; ?>
+
+                        <?php if ( detect_current_user_tag() == detect_user_tag( bp_get_member_user_id() ) ) : ?>
+
+                            <li class="vcard">
+                                <div class="item-avatar">
+                                    <a href="<?php bp_member_permalink() ?>" title="<?php bp_member_name() ?>"><?php bp_member_avatar() ?></a>
+                                </div>
+
+                                <div class="item">
+                                    <div class="item-title fn"><a href="<?php bp_member_permalink() ?>" title="<?php bp_member_name() ?>"><?php bp_member_name() ?></a></div>
+                                    <div class="item-meta">
+                                        <span class="activity">
+                                            <?php //bp_member_registered(); ?>
+                                            <span class="activity-time">
+                                                <?php bp_member_last_active(); ?>
+                                                </br>
+                                            </span>
+                                            <span class="activity-connections">
+                                                <?php bp_member_total_friend_count(); ?>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </li>
+                            <?php $maxmembers++; ?>
+                        <?php endif ?>
+
+                    <?php elseif ( is_current_user_student() && ( detect_user_type( bp_get_member_user_id() ) == "Coach" ) ) : ?>
+
+                        <?php // echo "<p> current user is student with tag=" . detect_current_user_tag() . " and other is " . detect_user_type( bp_get_member_user_id() ) . " with tag =" . detect_user_tag( bp_get_member_user_id() ) . "</p>"; ?>
+
+                        <?php if ( detect_current_user_tag() == detect_user_tag( bp_get_member_user_id() ) ) : ?>
+
+                            <li class="vcard">
+                                <div class="item-avatar">
+                                    <a href="<?php bp_member_permalink() ?>" title="<?php bp_member_name() ?>"><?php bp_member_avatar() ?></a>
+                                </div>
+
+                                <div class="item">
+                                    <div class="item-title fn">
+                                        <a href="<?php bp_member_permalink() ?>" title="<?php bp_member_name() ?>"><?php bp_member_name() ?> </a>
+                                    </div>
+                                    <div class="item-meta">
+                                       <span class="activity">
+                                            <?php //bp_member_registered(); ?>
+                                           <span class="activity-time">
+                                                <?php bp_member_last_active(); ?>
+                                               </br>
+                                            </span>
+                                            <span class="activity-connections">
+                                                <?php bp_member_total_friend_count(); ?>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </li>
+                            <?php $maxmembers++; ?>
+                        <?php endif ?>
+
+                    <?php endif ?>
+
+
+                <?php endwhile; ?>
+            </ul>
+
+        <?php else: ?>
+
+            <div class="widget-error">
+                <?php _e( 'There are no current users to offer ', 'buddypress' ) ?>
+            </div>
+
+        <?php endif; ?>
+
+        <?php echo $after_widget; ?>
+    <?php
+    }
+
+    function update( $new_instance, $old_instance ) {
+        $instance = $old_instance;
+        $instance['title'] = strip_tags( $new_instance['title'] );
+        $instance['max_members'] = strip_tags( $new_instance['max_members'] );
+
+        return $instance;
+    }
+
+    function form( $instance ) {
+        $defaults = array(
+            'title' => __( "Our Members", 'buddypress' ),
+            'max_members' => 15
+        );
+        $instance = wp_parse_args( (array) $instance, $defaults );
+
+        $title = strip_tags( $instance['title'] );
+        $max_members = strip_tags( $instance['max_members'] );
+        ?>
+
+        <p><label for="bp-core-widget-title"><?php _e('Title:', 'buddypress'); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" style="width: 100%" /></label></p>
+
+        <p><label for="bp-core-widget-members-max"><?php _e('Max Members to show:', 'buddypress'); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'max_members' ); ?>" name="<?php echo $this->get_field_name( 'max_members' ); ?>" type="text" value="<?php echo esc_attr( $max_members ); ?>" style="width: 30%" /></label></p>
+    <?php
+    }
+}
+
+
+
 
 /** Widget AJAX ******************/
 
