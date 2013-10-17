@@ -298,17 +298,17 @@ class BP_Core_Vittao_Offers extends WP_Widget {
     function widget($args, $instance) {
 
         extract( $args );
-        $maxmembers = 0;
-
         $title = apply_filters( 'widget_title', $instance['title'] );
 
 
-
-        if ( is_current_user_student() && ( friends_check_user_has_friends( bp_current_user_id() )  ) ) {
+        if ( !is_user_logged_in() ) {
+            return;
+        }
+        elseif ( is_current_user_student() && friends_check_user_has_friends( bp_current_user_id() ) ) {
             return;
         }
 
-        if ( bp_has_members( bp_ajax_querystring( 'members' ) ) ) :
+        if ( bp_has_members( bp_ajax_querystring( 'active' ) ) ) :
             while ( bp_members() ) : bp_the_member();
                 if ( friends_check_friendship_status( bp_get_member_user_id(), bp_loggedin_user_id() ) == "pending" ) {
                     return;
@@ -316,23 +316,29 @@ class BP_Core_Vittao_Offers extends WP_Widget {
             endwhile;
         endif;
 
-
-
         echo $before_widget;
         echo $before_title
             . $title
             . $after_title; ?>
 
-        <?php if ( bp_has_members( 'user_id=0&type=active' . '&populate_extras=1' ) ) : ?>
+
+        <?php if ( bp_has_members( 'type=random&populate_extras=1' ) ) : ?>
+
+            <?php $list_counter = 0; ?>
 
             <ul id="members-list" class="item-list">
-                <?php while ( bp_members() || ( $maxmembers >= $instance['max_members'] ) ) : bp_the_member(); ?>
 
-                    <?php if ( is_current_user_coach() && ( detect_user_type( bp_get_member_user_id() ) == "User" ) ) : ?>
+                <?php while ( bp_members() && $instance['max_members'] > $list_counter ) : bp_the_member(); ?>
 
-                        <?php // echo "<p> current user is Coach with tag=" . detect_current_user_tag() . " and other is " . detect_user_type( bp_get_member_user_id() ) . " with tag =" . detect_user_tag( bp_get_member_user_id() ) . "</p>"; ?>
 
-                        <?php if ( detect_current_user_tag() == detect_user_tag( bp_get_member_user_id() ) ) : ?>
+                    <?php $members_tags_diff = array_intersect( get_member_tags( bp_loggedin_user_id() ), get_member_tags( bp_get_member_user_id() ) );  
+                    ?>
+
+                    <?php if ( $members_tags_diff ) : ?>
+
+                        <?php if ( detect_is_member_coach( bp_loggedin_user_id() ) && detect_is_member_student( bp_get_member_user_id() ) ) : ?>
+
+                            <?php $list_counter ++; ?>
 
                             <li class="vcard">
                                 <div class="item-avatar">
@@ -355,14 +361,10 @@ class BP_Core_Vittao_Offers extends WP_Widget {
                                     </div>
                                 </div>
                             </li>
-                            <?php $maxmembers++; ?>
-                        <?php endif ?>
 
-                    <?php elseif ( is_current_user_student() && ( detect_user_type( bp_get_member_user_id() ) == "Coach" ) ) : ?>
+                        <?php elseif ( detect_is_member_student( bp_loggedin_user_id() ) && detect_is_member_coach( bp_get_member_user_id() ) ) : ?>
 
-                        <?php // echo "<p> current user is student with tag=" . detect_current_user_tag() . " and other is " . detect_user_type( bp_get_member_user_id() ) . " with tag =" . detect_user_tag( bp_get_member_user_id() ) . "</p>"; ?>
-
-                        <?php if ( detect_current_user_tag() == detect_user_tag( bp_get_member_user_id() ) ) : ?>
+                            <?php $list_counter ++; ?>
 
                             <li class="vcard">
                                 <div class="item-avatar">
@@ -387,21 +389,18 @@ class BP_Core_Vittao_Offers extends WP_Widget {
                                     </div>
                                 </div>
                             </li>
-                            <?php $maxmembers++; ?>
+
                         <?php endif ?>
 
                     <?php endif ?>
-
 
                 <?php endwhile; ?>
             </ul>
 
         <?php else: ?>
-
             <div class="widget-error">
                 <?php _e( 'There are no current users to offer ', 'buddypress' ) ?>
             </div>
-
         <?php endif; ?>
 
         <?php echo $after_widget; ?>

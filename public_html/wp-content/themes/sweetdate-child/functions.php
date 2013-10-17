@@ -11,10 +11,15 @@
  * Sweetdate Child Theme Functions
  * Add extra code or replace existing functions
 */
+
 global $bp;
+define("XP_MEMBER_TYPE_FIELD", "325");
+define("XP_COUCH_TAGS_FIELD",  "328");
+define("XP_STUDENT_TAGS_FIELD",   "11");
+define("XP_MEMBER_COACH", "Coach");
+define("XP_MEMBER_STUDENT",  "User");
 
 
-//Detect User Permission
 function is_allowed_view_users_profile() {
     $loggedin_user_id = bp_loggedin_user_id();
     $displayed_user_id = bp_displayed_user_id();
@@ -38,13 +43,53 @@ function is_allowed_view_users_profile() {
     return $allow_permission;
 }
 
-function detect_current_user_tag() {
-    return xprofile_get_field_data( 11, bp_loggedin_user_id() );
+function get_member_tags( $bp_get_member_user_id ) {
+
+    $member_type = xprofile_get_field_data( XP_MEMBER_TYPE_FIELD, $bp_get_member_user_id );
+
+    if ( $member_type == XP_MEMBER_STUDENT ) {
+        $member_user_tag = xprofile_get_field_data( XP_STUDENT_TAGS_FIELD, $bp_get_member_user_id );
+    } elseif ( $member_type == XP_MEMBER_COACH ) {
+        $member_user_tag = xprofile_get_field_data( XP_COUCH_TAGS_FIELD, $bp_get_member_user_id );
+    } else {
+        $member_user_tag = null;
+    }
+
+    if ( $member_user_tag == null ) {
+        return array();
+    }
+
+    return $member_user_tag;
 }
 
-function detect_user_tag($bp_get_member_user_id) {
-    return xprofile_get_field_data( 11, $bp_get_member_user_id );
+function detect_is_member_student($bp_get_member_user_id) {
+
+    $member_type = xprofile_get_field_data( XP_MEMBER_TYPE_FIELD, $bp_get_member_user_id );
+
+    if ( $member_type == XP_MEMBER_STUDENT) {
+
+        return true;
+
+    } else {
+
+        return false;
+    }
 }
+
+function detect_is_member_coach($bp_get_member_user_id) {
+
+    $member_type = xprofile_get_field_data( XP_MEMBER_TYPE_FIELD, $bp_get_member_user_id );
+
+    if ( $member_type == XP_MEMBER_COACH) {
+
+        return true;
+
+    } else {
+
+        return false;
+    }
+}
+
 
 function detect_user_type($bp_get_member_user_id) {
     return xprofile_get_field_data( 325, $bp_get_member_user_id );
@@ -101,9 +146,9 @@ function is_current_user_friend() {
 
     //"is_friend", "not_friends", "pending"
     if ($check_status == "is_friend") {
-       return true;
+        return true;
     } else {
-       return false;
+        return false;
     }
 }
 
