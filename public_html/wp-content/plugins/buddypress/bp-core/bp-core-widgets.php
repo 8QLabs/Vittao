@@ -305,15 +305,49 @@ class BP_Core_Vittao_Offers extends WP_Widget {
             return;
         }
         elseif ( is_current_user_student() && friends_check_user_has_friends( bp_current_user_id() ) ) {
+
+            if ( bp_loggedin_user_id() == 34 ) {
+                echo "Current student has friend(s)";
+                echo "</br>";
+                echo "widget has been terminated.";
+                echo "</br>";
+            }
+
             return;
         }
+        else {
+            if ( bp_loggedin_user_id() == 34 ) {
+                echo "Current student has no friends";
+                echo "</br></br>";
+                echo "Checking pending:";
+                echo "</br>";
+            }
+        }
 
-        if ( bp_has_members( bp_ajax_querystring( 'active' ) ) ) :
+        if ( bp_has_members( 'type=alphabetical' ) ) :
             while ( bp_members() ) : bp_the_member();
+
+                if ( bp_loggedin_user_id() == 34 ) {
+                    echo "check friendship status - " . bp_get_member_user_id();
+                    echo "</br>";
+                }
+
                 if ( friends_check_friendship_status( bp_get_member_user_id(), bp_loggedin_user_id() ) == "pending" ) {
+
+                    if ( bp_loggedin_user_id() == 34 ) {
+                        echo bp_get_member_user_id() . " status: " . friends_check_friendship_status( bp_get_member_user_id(), bp_loggedin_user_id() );
+                        echo "</br>";
+                        echo "widget has been terminated.";
+                    }
+
                     return;
                 }
             endwhile;
+
+            if ( bp_loggedin_user_id() == 34 ) {
+                echo bp_loggedin_user_id() . " has no pending";
+            }
+
         endif;
 
         echo $before_widget;
@@ -331,7 +365,17 @@ class BP_Core_Vittao_Offers extends WP_Widget {
                 <?php while ( bp_members() && $instance['max_members'] > $list_counter ) : bp_the_member(); ?>
 
 
-                    <?php $members_tags_diff = array_intersect( get_member_tags( bp_loggedin_user_id() ), get_member_tags( bp_get_member_user_id() ) );  
+                    <?php $members_tags_diff = array_intersect( get_member_tags( bp_loggedin_user_id() ), get_member_tags( bp_get_member_user_id() ) );
+
+                         if ( bp_loggedin_user_id() == 34 && detect_is_member_coach( bp_get_member_user_id() ) ) {
+                            echo bp_get_member_user_id() . "DIF status: ";
+                            if ( $members_tags_diff ) {
+                                print_r( $members_tags_diff ) ;
+                            } else {
+                                echo "no matches";
+                            }
+                            echo "</br>";
+                         }
                     ?>
 
                     <?php if ( $members_tags_diff ) : ?>
