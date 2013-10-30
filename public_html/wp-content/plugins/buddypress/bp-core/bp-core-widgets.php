@@ -356,7 +356,7 @@ class BP_Core_Vittao_Offers extends WP_Widget {
             . $after_title; ?>
 
 
-        <?php if ( bp_has_members( 'type=random&populate_extras=1' ) ) : ?>
+        <?php if ( bp_has_members( 'type=random&populate_extras=1&per_page=1000' ) ) : ?>
 
             <?php $list_counter = 0; ?>
 

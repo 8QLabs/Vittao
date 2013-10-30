@@ -262,8 +262,8 @@ function bp_rewind_members() {
 }
 
 function bp_has_members( $args = '' ) {
-	global $members_template;
-
+        global $members_template;
+        
 	/***
 	 * Set the defaults based on the current page. Any of these will be overridden
 	 * if arguments are directly passed into the loop. Custom plugins should always
@@ -276,7 +276,7 @@ function bp_has_members( $args = '' ) {
 
 	// User filtering
 	if ( bp_is_user_friends() && ! bp_is_user_friend_requests() ) {
-		$user_id = bp_displayed_user_id();
+		//$user_id = bp_displayed_user_id();
 	}
 
 	// type: active ( default ) | random | newest | popular | online | alphabetical
@@ -301,6 +301,7 @@ function bp_has_members( $args = '' ) {
 	);
 
 	$r = wp_parse_args( $args, $defaults );
+        
 	extract( $r );
 
 	// Pass a filter if ?s= is set.
@@ -314,8 +315,9 @@ function bp_has_members( $args = '' ) {
 	// Set per_page to max if max is larger than per_page
 	if ( !empty( $max ) && ( $per_page > $max ) )
 		$per_page = $max;
-
+        
 	$members_template = new BP_Core_Members_Template( $type, $page, $per_page, $max, $user_id, $search_terms, $include, (bool)$populate_extras, $exclude, $meta_key, $meta_value, $page_arg );
+        
 	return apply_filters( 'bp_has_members', $members_template->has_members(), $members_template );
 }
 
