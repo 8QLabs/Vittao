@@ -53,7 +53,7 @@
 		
 				jQuery('#vidtok-share-panel').animate({
 					
-					left : '-572px'
+					left : '-515px'
 				
 				}, 400);		
 				
